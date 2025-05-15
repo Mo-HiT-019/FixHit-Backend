@@ -3,6 +3,8 @@ import { IUserRepository } from "../../domain/repositories/userRepository";
 import bcrypt from 'bcrypt';
 
 export const createUser = async(userData:Omit<User,'id'| 'createdAt' | 'updatedAt' >)=>{
+
+    console.log(userData)
     return async(userRepo:IUserRepository)=>{
 
         const existingUser = await userRepo.findByEmail(userData.email);

@@ -3,7 +3,7 @@ import { User } from '../../domain/entities/user';
 
 
 const userSchema = new Schema<User>({
-    name:{
+    fullname:{
         type:String,
         required:true
     },

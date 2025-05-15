@@ -6,8 +6,10 @@ import jwt from "jsonwebtoken";
 const JWT_SECRET = process.env.JWT_SECRET || 'fixHitJWTSecret';
 
 export const loginUser =(email:string,password:string)=>{
+    console.log("Login called")
     return async (userRepo: IUserRepository):Promise<{token:string; user:User}> =>{
         const user = await userRepo.findByEmail(email);
+        console.log("Login tryn user",user)
         if(!user) throw new Error("User Not found");
 
         const isPassValid = await bcrypt.compare(password,user.password);

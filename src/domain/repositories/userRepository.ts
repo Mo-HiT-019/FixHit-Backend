@@ -6,5 +6,8 @@ export interface IUserRepository{
     findByEmail(email:string): Promise<User | null>;
     findById(id:string):Promise <User | null>;
     updateByUser(id:string,updates:Partial<User>): Promise<User | null>;
+    findAllUsers(search?:string):Promise<User[]>
+    blockUser(id:string):Promise<void>;
+    unblockUser(id:string):Promise<void>;
 } 
 

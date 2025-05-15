@@ -15,5 +15,3 @@ export const requestOtp = async (email:string)=>{
     await sendOtpEmail (email,otp);
     console.log("Otp sent")
 };
-
-export {otpCache};

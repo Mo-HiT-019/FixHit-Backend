@@ -21,6 +21,19 @@ export class UserRepoImpl implements IUserRepository{
     async updateByUser(id: string, updates: Partial<User>): Promise<User | null> {
         return await UserModel.findByIdAndUpdate(id,updates,{new:true}).lean();
     }
- 
+
+    async findAllUsers(search?: string): Promise<User[]> {
+        const query = search ? { fullname: { $regex: search, $options: "i" } } : {};
+    return await UserModel.find(query).select("-password");
+    }
+
+    async blockUser(id:string):Promise<void>{
+        await UserModel.findByIdAndUpdate(id,{isBlocked:true})
+    }
+
+    async unblockUser(id:string):Promise<void>{
+        await UserModel.findByIdAndUpdate(id,{isBlocked:false})
+    }
+    
 
 }
