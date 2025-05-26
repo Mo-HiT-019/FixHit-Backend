@@ -8,7 +8,7 @@ export class TechnicianRepoImpl implements ITechnicianRepository {
     const newTech = new TechnicianModel(technician);
     const saved = await newTech.save();
     const { _id, ...rest } = saved.toObject();
-    return { id: _id.toString(), ...rest };
+    return { _id: _id.toString(), ...rest };
   }
 
   async findAllTechnicians(search?: string): Promise<Technician[]> {
@@ -20,14 +20,14 @@ export class TechnicianRepoImpl implements ITechnicianRepository {
     const doc = await TechnicianModel.findOne({ email }).lean();
     if (!doc) return null;
     const { _id, ...rest } = doc;
-    return { id: _id.toString(), ...rest };
+    return { _id: _id.toString(), ...rest };
   }
 
-  async listTechnician(id: string): Promise<void> {
-    await TechnicianModel.findByIdAndUpdate(id, { isListed: true });
+  async listTechnician(_id: string): Promise<void> {
+    await TechnicianModel.findByIdAndUpdate(_id, { isListed: true });
   }
 
-  async unlistTechnician(id: string): Promise<void> {
-    await TechnicianModel.findByIdAndUpdate(id, { isListed: false });
+  async unlistTechnician(_id: string): Promise<void> {
+    await TechnicianModel.findByIdAndUpdate(_id, { isListed: false });
   }
 }

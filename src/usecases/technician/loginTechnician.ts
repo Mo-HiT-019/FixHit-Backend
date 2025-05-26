@@ -16,7 +16,7 @@ export const loginTechnician = (email: string, password: string) => {
     if (!isPassValid) throw new Error("Invalid credentials");
 
     const token = jwt.sign(
-      { id: technician.id, email: technician.email },
+      { id: technician._id, email: technician.email },
       JWT_SECRET,
       {
         expiresIn: "7d",

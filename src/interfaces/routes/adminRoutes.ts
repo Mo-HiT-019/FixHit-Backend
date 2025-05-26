@@ -5,23 +5,25 @@ import {adminLogin,
   unblockUserController,
   getTechniciansController,
   listTechnicianController,
-  unlistTechnicianController
+  unlistTechnicianController,
+  adminSignup
 } from "../controllers/adminController";
 
 const router = Router();
 
 //router.post("/login", adminLogin);
+router.post('signup',adminSignup)
 
 //userss
 router.get("/users", getUsersController);
-router.patch("/users/block/:id", blockUserController);
-router.patch("/users/unblock/:id", unblockUserController);
+router.patch("/users/:id/block", blockUserController);
+router.patch("/users/:id/unblock", unblockUserController);
 
 
 
 //technicnians
 router.get("/technicians", getTechniciansController);
-router.patch("/technicians/list/:id", listTechnicianController);
-router.patch("/technicians/unlist/:id", unlistTechnicianController);
+router.patch("/technicians/:id/list", listTechnicianController);
+router.patch("/technicians/:id/unlist", unlistTechnicianController);
 
 export default router;

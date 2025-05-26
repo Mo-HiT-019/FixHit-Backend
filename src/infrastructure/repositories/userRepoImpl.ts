@@ -18,8 +18,8 @@ export class UserRepoImpl implements IUserRepository{
         return await UserModel.findById(id).lean();
     }
 
-    async updateByUser(id: string, updates: Partial<User>): Promise<User | null> {
-        return await UserModel.findByIdAndUpdate(id,updates,{new:true}).lean();
+    async updateByUser(_id: string, updates: Partial<User>): Promise<User | null> {
+        return await UserModel.findByIdAndUpdate(_id,updates,{new:true}).lean();
     }
 
     async findAllUsers(search?: string): Promise<User[]> {
@@ -27,12 +27,12 @@ export class UserRepoImpl implements IUserRepository{
     return await UserModel.find(query).select("-password");
     }
 
-    async blockUser(id:string):Promise<void>{
-        await UserModel.findByIdAndUpdate(id,{isBlocked:true})
+    async blockUser(_id:string):Promise<void>{
+        await UserModel.findByIdAndUpdate(_id,{isBlocked:true})
     }
 
-    async unblockUser(id:string):Promise<void>{
-        await UserModel.findByIdAndUpdate(id,{isBlocked:false})
+    async unblockUser(_id:string):Promise<void>{
+        await UserModel.findByIdAndUpdate(_id,{isBlocked:false})
     }
     
 

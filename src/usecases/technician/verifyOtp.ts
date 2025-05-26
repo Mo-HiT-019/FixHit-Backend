@@ -3,7 +3,7 @@ import { Technician } from "../../domain/entities/technicain";
 import { ITechnicianRepository } from "../../domain/repositories/technicianRepository";
 import { OtpModel } from "../../infrastructure/models/otpModel";
 
-export const verifyOtp = async (email: string,enteredOtp: string,technicianData: Omit<Technician, "id">
+export const verifyOtp = async (email: string,enteredOtp: string,technicianData: Omit<Technician, "_id">
 ) => {
   console.log("Technician data:", technicianData);
 

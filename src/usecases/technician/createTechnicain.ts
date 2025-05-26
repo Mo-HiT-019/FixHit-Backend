@@ -3,7 +3,7 @@ import { ITechnicianRepository } from "../../domain/repositories/technicianRepos
 import bcrypt from "bcrypt";
 
 export const createTechnician = async (
-  technicianData: Omit<Technician, "id">
+  technicianData: Omit<Technician, "_id">
 ) => {
   return async (technicianRepo: ITechnicianRepository) => {
     const existingTechnician = await technicianRepo.findByEmail(

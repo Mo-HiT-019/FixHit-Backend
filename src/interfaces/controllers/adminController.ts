@@ -8,10 +8,24 @@ import { TechnicianRepoImpl } from "../../infrastructure/repositories/technician
 import { viewAllTechnicians } from "../../usecases/admin/viewTechnicians";
 import {listTechnicianById} from '../../usecases/admin/listTechnicians';
 import {unlistTechnicianById} from '../../usecases/admin/unlistTechnicians';
-
+import { registerAdmin } from "../../usecases/admin/registerAdmin";
+import { AdminRepositoryImpl } from "../../infrastructure/repositories/adminRepoImpl";
 
 const userRepository = new UserRepoImpl();
 const technicianRepository = new TechnicianRepoImpl();
+const adminRepo = new AdminRepositoryImpl();
+
+export const adminSignup = async (req: Request, res: Response) => {
+  try {
+    const { username, password } = req.body;
+
+    await (await registerAdmin({ username, password }))(adminRepo);
+
+    res.status(HTTP_statusCode.Created).json({ message: "Admin registered successfully" });
+  } catch (err: any) {
+    res.status(HTTP_statusCode.BadRequest).json({ message: err.message || "Signup failed" });
+  }
+};
 
 export const adminLogin = async (req:Request,res:Response)=>{
     const {username, password} = req.body;
@@ -33,7 +47,7 @@ export const adminLogin = async (req:Request,res:Response)=>{
 
 export const getUsersController = async (req: Request, res: Response) => {
   try{
-    console.log("getuserconreoller called...");
+
     const search = req.query.search as string;
     const users = await (await viewAllUsers(search))(userRepository);
     res.status(HTTP_statusCode.OK).json(users);
@@ -45,9 +59,10 @@ export const getUsersController = async (req: Request, res: Response) => {
 
 
 export const blockUserController = async (req: Request, res: Response) => {
+  console.log("Block user controller calledd")
   try {
     await (await blockUserById(req.params.id))(userRepository);
-    res.status(HTTP_statusCode.updated).json({ message: "User blocked" });
+    res.status(HTTP_statusCode.OK).json({ message: "User blocked" });
   } catch {
     res.status(HTTP_statusCode.InternalServerError).json({ message: "Block failed..." });
   }
@@ -58,7 +73,7 @@ export const unblockUserController = async (req: Request, res: Response) => {
   try {
     
     await (await unblockUserById(req.params.id))(userRepository);
-    res.status(HTTP_statusCode.updated).json({ message: "User unblocked.." });
+    res.status(HTTP_statusCode.OK).json({ message: "User unblocked.." });
   } catch {
     res.status(HTTP_statusCode.InternalServerError).json({ message: "unblock failed" });
   }
@@ -77,19 +92,22 @@ export const getTechniciansController = async (req: Request, res: Response) => {
   }
 };
 
+
+
 export const listTechnicianController = async (req: Request, res: Response) => {
   try {
     await (await listTechnicianById(req.params.id))(technicianRepository);
-    res.status(HTTP_statusCode.updated).json({ message: "Technician listed" });
+    res.status(HTTP_statusCode.OK).json({ message: "Technician listed" });
   } catch {
     res.status(HTTP_statusCode.InternalServerError).json({ message: "List failed..." });
   }
 };
 
+
 export const unlistTechnicianController = async (req: Request, res: Response) => {
   try {
     await (await unlistTechnicianById(req.params.id))(technicianRepository);
-    res.status(HTTP_statusCode.updated).json({ message: "Technician unlisted" });
+    res.status(HTTP_statusCode.OK).json({ message: "Technician unlisted" });
   } catch {
     res.status(HTTP_statusCode.InternalServerError).json({ message: "Unlist failed..." });
   }

@@ -11,8 +11,8 @@ export const loginTechnicianController = async (req: Request, res: Response) => 
   try {
     const { technician } = await loginTechnician(req.body.email, req.body.password)(technicianRepository);
 
-    const accessToken = generateAccessToken({ id: technician.id, email: technician.email });
-    const refreshToken = generateRefreshToken({ id: technician.id, email: technician.email });
+    const accessToken = generateAccessToken({ id: technician._id, email: technician.email });
+    const refreshToken = generateRefreshToken({ id: technician._id, email: technician.email });
 
     res
       .cookie("accessToken", accessToken, {
@@ -57,16 +57,16 @@ export const verifyAndRegisterTechnician = async (req: Request, res: Response) =
       })
     )(technicianRepository);
 
-    const accessToken = generateAccessToken({ id: technician.id, email: technician.email });
-    const refreshToken = generateRefreshToken({ id: technician.id, email: technician.email });
+    const accessToken = generateAccessToken({ id: technician._id, email: technician.email });
+    const refreshToken = generateRefreshToken({ id: technician._id, email: technician.email });
 
     res
-      .cookie("accessToken", accessToken, {
+      .cookie("accessTokenTechnician", accessToken, {
         httpOnly: true,
         secure: true,
         sameSite: "strict"
       })
-      .cookie("refreshToken", refreshToken, {
+      .cookie("refreshTokenTechnician", refreshToken, {
         httpOnly: true,
         secure: true,
         sameSite: "strict"

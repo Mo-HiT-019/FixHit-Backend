@@ -6,6 +6,8 @@ import cookieParser from 'cookie-parser';
 import userRouter from './interfaces/routes/userRoutes';
 import technicianRouter from './interfaces/routes/technicianRoutes';
 import adminRouter from './interfaces/routes/adminRoutes'
+import refreshTokenRoute from './interfaces/routes/authRoutes';
+
 
 dotenv.config();
 
@@ -23,13 +25,13 @@ app.use(cookieParser());
 app.use('/api/users', userRouter);
 app.use('/api/technicians', technicianRouter);
 app.use('/api/admin',adminRouter);
+app.use("/api/refresh-token", refreshTokenRoute);
 
 
 const MONGO_URI : any= process.env.MONGO_URI;
 
 
-
-mongoose
+mongoose 
   .connect(MONGO_URI)
   .then(() => {
     console.log("Connected to MongoDB");
