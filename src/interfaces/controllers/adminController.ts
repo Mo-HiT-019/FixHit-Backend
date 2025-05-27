@@ -1,6 +1,7 @@
 import { Request,Response} from "express";
 import { AdminModel } from "../../infrastructure/models/adminModel";
 import HTTP_statusCode from "../../enum/statusCode";
+import bcrypt from 'bcrypt';
 import { viewAllUsers } from "../../usecases/admin/viewUsers";
 import { blockUserById, unblockUserById } from "../../usecases/admin/blockUnblockUser";
 import { UserRepoImpl } from "../../infrastructure/repositories/userRepoImpl";
@@ -10,6 +11,7 @@ import {listTechnicianById} from '../../usecases/admin/listTechnicians';
 import {unlistTechnicianById} from '../../usecases/admin/unlistTechnicians';
 import { registerAdmin } from "../../usecases/admin/registerAdmin";
 import { AdminRepositoryImpl } from "../../infrastructure/repositories/adminRepoImpl";
+import { loginAdmin } from "../../usecases/admin/loginAdmin";
 
 const userRepository = new UserRepoImpl();
 const technicianRepository = new TechnicianRepoImpl();
@@ -27,22 +29,22 @@ export const adminSignup = async (req: Request, res: Response) => {
   }
 };
 
-export const adminLogin = async (req:Request,res:Response)=>{
-    const {username, password} = req.body;
-    try{
-        const admin = await AdminModel.findOne({username});
+export const adminLogin = async (req: Request, res: Response) => {
+    const { username, password } = req.body;
+    try {
+    
+        const admin = await loginAdmin(username, password)(adminRepo);
 
-        if(!admin || admin.password!== password){
-            return res.status(HTTP_statusCode.Unauthorized).json({message:"Invalid credentials.."});
+        console.log("Admin login successss");
+        res.status(HTTP_statusCode.OK).json({ message: "Admin login Success" ,admin });
 
-
-        }
-
-        res.status(HTTP_statusCode.OK).json({message:"ADmin login Success"});
-    }catch(error){
-        res.status(HTTP_statusCode.InternalServerError).json({message:"Internal server erorr.."})
+    } catch (error: any) {
+        console.error("Admin login error:", error.message);
+        res.status(HTTP_statusCode.Unauthorized).json({ message: error.message || "Login failed due to an unexpected error." });
     }
-}
+};
+
+
 
 
 export const getUsersController = async (req: Request, res: Response) => {

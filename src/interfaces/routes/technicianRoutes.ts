@@ -12,4 +12,5 @@ router.post("/login", loginTechnicianController);
 router.post("/request-otp", requestOtpTechnicianController);
 router.post("/verify-otp", verifyAndRegisterTechnician);
 
+
 export default router; 

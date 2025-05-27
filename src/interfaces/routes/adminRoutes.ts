@@ -11,8 +11,8 @@ import {adminLogin,
 
 const router = Router();
 
-//router.post("/login", adminLogin);
-router.post('signup',adminSignup)
+router.post("/login", adminLogin);
+router.post('/signup',adminSignup)
 
 //userss
 router.get("/users", getUsersController);
