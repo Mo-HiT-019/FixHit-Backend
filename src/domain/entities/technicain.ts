@@ -10,7 +10,7 @@ export interface Technician {
     address?: string;
     experience?:number;
     certification?:string;
-    categories?: string[];
+    services?: string[];
     profileCompleted?:boolean;
     isVerified?: boolean;
     isListed?: boolean;

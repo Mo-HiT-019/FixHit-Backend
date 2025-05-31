@@ -27,7 +27,7 @@ const technicianSchema = new Schema<Technician>({
   certification: {
     type: String 
   },
-  categories: [String],
+  services: [String],
   profileCompleted: {
     type: Boolean,
     default: false,

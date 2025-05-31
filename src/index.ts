@@ -7,6 +7,7 @@ import userRouter from './interfaces/routes/userRoutes';
 import technicianRouter from './interfaces/routes/technicianRoutes';
 import adminRouter from './interfaces/routes/adminRoutes'
 import refreshTokenRoute from './interfaces/routes/authRoutes';
+import serviceRouter from './interfaces/routes/serviceRoutes'
 
 
 dotenv.config();
@@ -25,6 +26,7 @@ app.use(cookieParser());
 app.use('/api/users', userRouter);
 app.use('/api/technicians', technicianRouter);
 app.use('/api/admin',adminRouter);
+app.use('/api/services',serviceRouter)
 app.use("/api/refresh-token", refreshTokenRoute);
 
 
