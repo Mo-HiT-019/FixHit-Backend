@@ -27,7 +27,38 @@ export class TechnicianRepoImpl implements ITechnicianRepository {
     await TechnicianModel.findByIdAndUpdate(_id, { isListed: true });
   }
 
+  async findById(_id: string): Promise<Technician | null> {
+  return await TechnicianModel.findById(_id);
+}
+
+
   async unlistTechnician(_id: string): Promise<void> {
     await TechnicianModel.findByIdAndUpdate(_id, { isListed: false });
   }
+
+  async updateTechnicianProfile(_id: string, updates: Partial<Technician>): Promise<Technician | null> {
+    const updatedDoc = await TechnicianModel.findByIdAndUpdate(
+      _id,
+      { $set: updates },
+      { new: true, runValidators: true }
+    ).lean();
+
+    if (!updatedDoc) return null;
+    const { _id: docId, ...rest } = updatedDoc;
+    return { _id: docId.toString(), ...rest } as Technician;
+  }
+
+  async findTechniciansForVerification(): Promise<Technician[]> {
+    const unverifiedTechs = await TechnicianModel.find({ verificationRequested: true }).select("-password").lean();
+
+    console.log("Req verification techiss",unverifiedTechs)
+
+    return unverifiedTechs.map(({ _id, ...rest }) => ({ _id: _id.toString(), ...rest }));
+  }
+
+  async markTechnicianAsVerified(_id: string): Promise<void> {
+    await TechnicianModel.findByIdAndUpdate(_id, { isVerified: true, verificationRequested:false });
+  }
+
+
 }

@@ -22,12 +22,22 @@ const technicianSchema = new Schema<Technician>({
   profilePic: String,
   dob: Date,
   gender: String,
-  address: String,
+  address: {
+
+  residential: { type: String },
+  city: { type: String },
+  district: { type: String },
+  state: { type: String },
+  pincode: { type: String }
+  },
   experience: Number,
   certification: {
     type: String 
   },
-  services: [String],
+  services: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Service'
+  }],
   profileCompleted: {
     type: Boolean,
     default: false,
@@ -35,6 +45,10 @@ const technicianSchema = new Schema<Technician>({
   isVerified: {
     type: Boolean,
     default: false,
+  },
+  verificationRequested:{
+    type:Boolean,
+    default:false
   },
   isListed: {
     type: Boolean,

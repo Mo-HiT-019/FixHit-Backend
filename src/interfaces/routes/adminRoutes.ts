@@ -6,7 +6,8 @@ import {adminLogin,
   getTechniciansController,
   listTechnicianController,
   unlistTechnicianController,
-  adminSignup
+  adminSignup,getTechniciansForVerificationController,
+  getTechnicianByIdController
 } from "../controllers/adminController";
 
 const router = Router();
@@ -23,7 +24,9 @@ router.patch("/users/:id/unblock", unblockUserController);
 
 //technicnians
 router.get("/technicians", getTechniciansController);
+router.get("/technicians/verification-requests", getTechniciansForVerificationController);
 router.patch("/technicians/:id/list", listTechnicianController);
 router.patch("/technicians/:id/unlist", unlistTechnicianController);
+router.get('/technicians/:id', getTechnicianByIdController);
 
 export default router;

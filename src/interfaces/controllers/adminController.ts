@@ -12,6 +12,9 @@ import {unlistTechnicianById} from '../../usecases/admin/unlistTechnicians';
 import { registerAdmin } from "../../usecases/admin/registerAdmin";
 import { AdminRepositoryImpl } from "../../infrastructure/repositories/adminRepoImpl";
 import { loginAdmin } from "../../usecases/admin/loginAdmin";
+import { getTechniciansForVerification } from "../../usecases/technician/getTechniciansForVerification";
+import { markTechnicianAsVerified } from "../../usecases/technician/markTechnicianAsVerified";
+import {findTechnicianById} from '../../usecases/admin/findTechnicianById'
 
 const userRepository = new UserRepoImpl();
 const technicianRepository = new TechnicianRepoImpl();
@@ -115,3 +118,36 @@ export const unlistTechnicianController = async (req: Request, res: Response) =>
   }
 };
 
+
+export const getTechniciansForVerificationController = async (req: Request, res: Response) => {
+  try {
+    console.log("Get techs for verification called ")
+
+    const technicians = await getTechniciansForVerification();
+    res.status(HTTP_statusCode.OK).json({ technicians });
+  } catch (error: any) {
+    res.status(HTTP_statusCode.InternalServerError).json({ message: error.message || "Failed to fetch technicians" });
+  }
+};
+
+export const getTechnicianByIdController = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const technician = await (await findTechnicianById(id))(technicianRepository);
+    
+    res.status(HTTP_statusCode.OK).json({ technician });
+  } catch (error: any) {
+    res.status(HTTP_statusCode.NotFound).json({ message: error.message || 'Technician not found' });
+  }
+};
+
+
+export const markTechnicianAsVerifiedController = async (req: Request, res: Response) => {
+  try {
+    const technicianId = req.params.id;
+    await markTechnicianAsVerified(technicianId);
+    res.status(200).json({ message: "Technician marked as verified" });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message || "Failed to verify technician" });
+  }
+};

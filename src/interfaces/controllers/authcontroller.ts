@@ -26,7 +26,7 @@ export const handleRefresh_token = (req: CustomRequest, res: Response) => {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
-      maxAge: 15 * 60 * 1000, // 15 minutes
+      maxAge: 15 * 60 * 1000, 
     });
 
     return res.status(200).json({ message: "Access token refreshed" });

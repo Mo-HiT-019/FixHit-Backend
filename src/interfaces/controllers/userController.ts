@@ -8,6 +8,9 @@ import HTTP_statusCode from "../../enum/statusCode";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { OtpModel } from "../../infrastructure/models/otpModel";
 import { resetPassword } from "../../usecases/user/resetPassword";
+import { CustomRequest } from "../../types/custom-request";
+import { updateUserProfile } from "../../usecases/user/updateUserProfile";
+import { uploadProfilePic } from "../../usecases/user/uploadUserProfilePic";
 
 
 
@@ -159,6 +162,51 @@ export const resetPasswordController = async (req: Request, res: Response) => {
   }
 };
 
+
+export const updateProfileController = async (req: CustomRequest, res: Response) => {
+  try {
+    const userId = (req.user as JwtPayload).id;
+    const updates = req.body;
+    if (!userId) {
+      return res.status(HTTP_statusCode.NotFound).json({ success: false, message: 'Unauthorized' });
+    }
+
+    const updatedUser = await updateUserProfile(userId, updates);
+
+    if (!updatedUser) {
+      return res.status(HTTP_statusCode.NotFound).json({ success: false, message: 'User not found or update failed' });
+    }
+
+    res.json({ success: true, user: updatedUser });
+  } catch (err) {
+    console.error('Update error:', err);
+    res.status(500).json({ success: false, message: 'Failed to update profile' });
+  }
+};
+
+
+export const uploadProfilePicController = async (req: CustomRequest, res: Response) => {
+  try {
+    console.log("Upload profile pic req")
+    const userId = (req.user as JwtPayload).id; 
+    if (!userId) {
+      return res.status(HTTP_statusCode.Unauthorized).json({ success: false, message: 'Unauthorized' });
+    }
+    if (!req.file) {
+      return res.status(HTTP_statusCode.BadRequest).json({ success: false, message: 'No file uploaded' });
+    }
+    const updatedUser = await uploadProfilePic(userId, req.file);
+
+    if (!updatedUser) {
+      return res.status(HTTP_statusCode.NotFound).json({ success: false, message: 'User not found or update failed' });
+    }
+
+    res.json({ success: true, user: updatedUser });
+  } catch (error) {
+    console.error('Upload profile pic error:', error);
+    res.status(HTTP_statusCode.InternalServerError).json({ success: false, message: 'Failed to upload profile picture' });
+  }
+};
 
 
 export const handleRefreshToken = (req: Request, res: Response) => {

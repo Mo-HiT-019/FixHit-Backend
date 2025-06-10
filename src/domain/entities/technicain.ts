@@ -1,3 +1,13 @@
+
+export interface Address {
+  residential?: string;
+  city?: string;
+  district?: string;
+  state?: string;
+  pincode?: string;
+}
+
+
 export interface Technician {
     _id?: string;
     fullname: string;
@@ -7,12 +17,13 @@ export interface Technician {
     profilePic?: string;
     dob?: Date;
     gender?: string;
-    address?: string;
+    address?: Address;
     experience?:number;
     certification?:string;
     services?: string[];
     profileCompleted?:boolean;
     isVerified?: boolean;
+    verificationRequested?:boolean;
     isListed?: boolean;
     wallet?: number;
   }

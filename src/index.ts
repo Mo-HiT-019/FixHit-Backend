@@ -1,5 +1,5 @@
-import express ,{Application} from 'express';
 import dotenv from 'dotenv';
+import express ,{Application} from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
@@ -36,7 +36,7 @@ const MONGO_URI : any= process.env.MONGO_URI;
 mongoose 
   .connect(MONGO_URI)
   .then(() => {
-    console.log("Connected to MongoDB");
+    console.log("Connected to MongoDB"); 
     app.listen(PORT, () => console.log(`Hi server running on port ${PORT}`));
   })
   .catch((err) => {
