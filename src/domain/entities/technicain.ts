@@ -21,6 +21,8 @@ export interface Technician {
     experience?:number;
     certification?:string;
     services?: string[];
+    documents?: string[];
+    verificationId?: string[];
     profileCompleted?:boolean;
     isVerified?: boolean;
     verificationRequested?:boolean;

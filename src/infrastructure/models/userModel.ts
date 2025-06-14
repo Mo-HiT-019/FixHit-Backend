@@ -22,7 +22,13 @@ const userSchema = new Schema<User>({
     dob:Date,
     profilePic:String,
     gender:String,
-    address:String,
+    address: {
+        residential: { type: String },
+        city: { type: String },
+        district: { type: String },
+        state: { type: String },
+        pincode: { type: String }
+    },
     wallet:{
         type:Number,
         default:0

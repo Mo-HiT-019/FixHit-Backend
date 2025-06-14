@@ -36,16 +36,19 @@ export class TechnicianRepoImpl implements ITechnicianRepository {
     await TechnicianModel.findByIdAndUpdate(_id, { isListed: false });
   }
 
-  async updateTechnicianProfile(_id: string, updates: Partial<Technician>): Promise<Technician | null> {
-    const updatedDoc = await TechnicianModel.findByIdAndUpdate(
-      _id,
-      { $set: updates },
-      { new: true, runValidators: true }
-    ).lean();
-
-    if (!updatedDoc) return null;
-    const { _id: docId, ...rest } = updatedDoc;
-    return { _id: docId.toString(), ...rest } as Technician;
+  
+  async updateTechnicianProfile(technicianId: string,updateData: Partial<Technician>): Promise<Technician | null> {
+    try {
+      const updatedTechnician = await TechnicianModel.findByIdAndUpdate(
+        technicianId,
+        { $set: updateData }, 
+        { new: true } 
+      );
+      return updatedTechnician;
+    } catch (error) {
+      console.error("Error updating technician profile:", error);
+      throw error;
+    }
   }
 
   async findTechniciansForVerification(): Promise<Technician[]> {

@@ -144,6 +144,7 @@ export const getTechnicianByIdController = async (req: Request, res: Response) =
 
 export const markTechnicianAsVerifiedController = async (req: Request, res: Response) => {
   try {
+    console.log("TEchnincianmark verfiy called")
     const technicianId = req.params.id;
     await markTechnicianAsVerified(technicianId);
     res.status(200).json({ message: "Technician marked as verified" });

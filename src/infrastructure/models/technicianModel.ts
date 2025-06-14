@@ -38,6 +38,12 @@ const technicianSchema = new Schema<Technician>({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Service'
   }],
+  documents:[{
+    type:String
+  }],
+  verificationId:[{
+    type:String
+  }],
   profileCompleted: {
     type: Boolean,
     default: false,

@@ -7,7 +7,8 @@ import {adminLogin,
   listTechnicianController,
   unlistTechnicianController,
   adminSignup,getTechniciansForVerificationController,
-  getTechnicianByIdController
+  getTechnicianByIdController,
+  markTechnicianAsVerifiedController
 } from "../controllers/adminController";
 
 const router = Router();
@@ -28,5 +29,6 @@ router.get("/technicians/verification-requests", getTechniciansForVerificationCo
 router.patch("/technicians/:id/list", listTechnicianController);
 router.patch("/technicians/:id/unlist", unlistTechnicianController);
 router.get('/technicians/:id', getTechnicianByIdController);
+router.patch('/technicians/verify/:id',markTechnicianAsVerifiedController);
 
 export default router;

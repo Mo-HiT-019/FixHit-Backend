@@ -1,3 +1,11 @@
+export interface Address {
+  residential?: string;
+  city?: string;
+  district?: string;
+  state?: string;
+  pincode?: string;
+}
+
 export interface User{
     _id?:string;
     fullname:string;
@@ -7,7 +15,7 @@ export interface User{
     mobile?: String
     profilePic?: String
     gender?: 'male' | 'female' | 'other';
-    address?:String;
+    address?: Address;
     wallet:number;
     isBlocked:boolean;
     createdAt?: Date;
